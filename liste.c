@@ -26,24 +26,38 @@ void ajouter(liste l, void* element) {
     //l=tmp;
 }
 
-liste supprimer(liste l) {
-    if (l->next!=NULL) {
-        l=l->next;
+
+liste supprimer(liste l, void* cible) {
+    if (l == NULL) return NULL;
+
+    liste courant = l;
+    liste precedent = NULL;
+
+    while (courant != NULL && courant->contenu != cible) {
+        precedent = courant;
+        courant = courant->next;
     }
-    afficherliste(l);
+
+    if (courant == NULL) return l;
+
+    if (precedent == NULL) {
+        l = courant->next;
+    }
+    else {
+        precedent->next = courant->next;
+    }
+
+    free(courant);
     return l;
-    printf("Supprimé!\n");
 }
-  
   
 
 void afficherliste(liste l) {
     liste tmp = l;
-    do {
+    while (tmp != NULL) {
         affichage_voie(tmp->contenu);
-        tmp=tmp->next;
+        tmp = tmp->next;
     }
-    while (tmp->next != NULL);
 }
 
 int case_vide(liste l) {
